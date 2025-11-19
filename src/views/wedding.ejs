@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="h-max w-max bg-zinc-900 text-white p-5">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold mb-12 text-center">Plan Your Wedding</h1>
+             <!-- Venues Card -->
+                <div class="bg-zinc-800 rounded-lg p-8 shadow-lg hover:bg-zinc-700 transition">
+                    <h2 class="text-2xl font-semibold mb-4">Venues</h2>
+                    <p class="text-zinc-400 mb-6">Browse and select from available wedding venues</p>
+                    <form action="/vendors/venues" method="GET">
+                        <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-md transition">
+                            View Venues
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Catering Card -->
+                <div class="bg-zinc-800 rounded-lg p-8 shadow-lg hover:bg-zinc-700 transition">
+                    <h2 class="text-2xl font-semibold mb-4">Catering</h2>
+                    <p class="text-zinc-400 mb-6">Explore catering options and menu packages</p>
+                    <form action="/vendors/catering" method="GET">
+                        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded-md transition">
+                            View Catering
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Decoration Card -->
+                <div class="bg-zinc-800 rounded-lg p-8 shadow-lg hover:bg-zinc-700 transition">
+                    <h2 class="text-2xl font-semibold mb-4">Decorations</h2>
+                    <p class="text-zinc-400 mb-6">Choose from professional decoration services</p>
+                    <form action="/vendors/decorations" method="GET">
+                        <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded-md transition">
+                            View Decorations
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

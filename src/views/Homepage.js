@@ -21,6 +21,7 @@ function Homepage() {
 				</h1>
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
 					<div className="flex-col border-2 border-white rounded-2xl p-4 shadow-2xl bg-white">
+						<a href="http://localhost:5000/wedding">
 						<img
 							src={wedIcon}
 							alt="wedding icon"
@@ -29,6 +30,7 @@ function Homepage() {
 						<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
 							Wedding
 						</h1>
+						</a>
 					</div>
 					<div className="flex-col border-2 border-white rounded-2xl p-4 shadow-2xl bg-white">
 						<img

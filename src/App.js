@@ -1,8 +1,10 @@
-import "./App.css";
-import "./index.css";
+import "./stylesheets/App.css";
+import "./stylesheets/index.css";
+import "./index.js";
 import React, { useState } from "react";
-import Login from "./Login";
-import Homepage from "./Homepage";
+import Login from "./views/Login";
+import Homepage from "./views/Homepage";
+
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,5 +19,6 @@ function App() {
 		</div>
 	);
 }
+
 
 export default App;
