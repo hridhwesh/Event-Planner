@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import icon from "./assets/pngegg.png";
 import wedIcon from "./assets/wedding.svg";
 import bday from "./assets/birthday-cake.png";
@@ -21,46 +22,52 @@ function Homepage() {
 				</h1>
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
 					<div className="flex-col border-2 border-white rounded-2xl p-4 shadow-2xl bg-white">
-						<a href="http://localhost:5000/wedding">
-						<img
-							src={wedIcon}
-							alt="wedding icon"
-							className="w-full h-auto max-w-[160px] mx-auto"
-						/>
-						<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
-							Wedding
-						</h1>
-						</a>
+						<Link to="/wedding">
+							<img
+								src={wedIcon}
+								alt="wedding icon"
+								className="w-full h-auto max-w-[160px] mx-auto"
+							/>
+							<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
+								Wedding
+							</h1>
+						</Link>
 					</div>
 					<div className="flex-col border-2 border-white rounded-2xl p-4 shadow-2xl bg-white">
-						<img
-							src={bday}
-							alt="birthday icon"
-							className="w-full h-auto max-w-[160px] mx-auto"
-						/>
-						<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
-							Birthday
-						</h1>
+						<Link to="/birthday">
+							<img
+								src={bday}
+								alt="birthday icon"
+								className="w-full h-auto max-w-[160px] mx-auto"
+							/>
+							<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
+								Birthday
+							</h1>
+						</Link>
 					</div>
 					<div className="flex-col border-2 border-white rounded-2xl p-4 shadow-2xl bg-white">
-						<img
-							src={meeting}
-							alt="meeting icon"
-							className="w-full h-auto max-w-[160px] mx-auto"
-						/>
-						<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
-							Meeting
-						</h1>
+						<Link to="/meeting">
+							<img
+								src={meeting}
+								alt="meeting icon"
+								className="w-full h-auto max-w-[160px] mx-auto"
+							/>
+							<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
+								Meeting
+							</h1>
+						</Link>
 					</div>
 					<div className="flex-col border-2 border-white rounded-2xl p-4 shadow-2xl bg-white">
-						<img
-							src={house}
-							alt="house party icon"
-							className="w-full h-auto max-w-[160px] mx-auto"
-						/>
-						<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
-							House Party
-						</h1>
+						<Link to="/houseparty">
+							<img
+								src={house}
+								alt="house party icon"
+								className="w-full h-auto max-w-[160px] mx-auto"
+							/>
+							<h1 className="font-semibold text-center bg-gray-100 mt-2 p-2 rounded-2xl">
+								House Party
+							</h1>
+						</Link>
 					</div>
 				</div>
 				<div className="bg-white flex items-center justify-center h-[60px] rounded-2xl shadow-2xl mx-auto max-w-md">
