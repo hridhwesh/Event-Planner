@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HouseParty() {
+	const navigate = useNavigate();
 	const [selectedVenue, setSelectedVenue] = useState("");
 	const [selectedFood, setSelectedFood] = useState("");
 	const [selectedEntertainment, setSelectedEntertainment] = useState("");
@@ -116,13 +118,20 @@ function HouseParty() {
 					</button>
 
 					{estimate !== null && (
-						<div className="mt-8 p-6 bg-white rounded-2xl shadow-xl max-w-md mx-auto">
-							<h2 className="text-3xl font-bold text-green-700 mb-4">
-								Estimated Cost
-							</h2>
-							<p className="text-2xl text-gray-800">
-								₹{estimate.toLocaleString("en-IN")}
-							</p>
+						<div className="mt-8 space-y-6">
+							<div className="p-6 bg-white rounded-2xl shadow-xl max-w-md mx-auto">
+								<h2 className="text-3xl font-bold text-green-700 mb-4">
+									Estimated Cost
+								</h2>
+								<p className="text-2xl text-gray-800">
+									₹{estimate.toLocaleString("en-IN")}
+								</p>
+							</div>
+							<button
+								onClick={() => navigate("/vendors")}
+								className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+								View Recommended Vendors
+							</button>
 						</div>
 					)}
 				</div>
