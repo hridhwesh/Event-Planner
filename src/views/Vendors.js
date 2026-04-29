@@ -1,82 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function Vendors() {
+	const location = useLocation();
+	const estimate = location.state?.estimate || 0;
 	const [selectedVendor, setSelectedVendor] = useState(null);
 	const [showChat, setShowChat] = useState(false);
 	const [cartItems, setCartItems] = useState([]);
 	const [showCart, setShowCart] = useState(false);
 	const [showCheckout, setShowCheckout] = useState(false);
-	const cateringVendors = [
-		{
-			name: "Gourmet Delights Catering",
-			description: "Premium catering services for all occasions",
-			contact: "+91-9876543210",
-			rating: 4.8,
-			priceRange: "₹50,000 - ₹500,000",
-		},
-		{
-			name: "Traditional Flavors",
-			description: "Authentic regional cuisine specialists",
-			contact: "+91-9876543211",
-			rating: 4.6,
-			priceRange: "₹30,000 - ₹300,000",
-		},
-		{
-			name: "Fusion Feast",
-			description: "Modern fusion cuisine with traditional twist",
-			contact: "+91-9876543212",
-			rating: 4.7,
-			priceRange: "₹40,000 - ₹400,000",
-		},
-	];
+	const [cateringVendors, setCateringVendors] = useState([]);
+	const [decorationVendors, setDecorationVendors] = useState([]);
+	const [venueVendors, setVenueVendors] = useState([]);
+	const [loading, setLoading] = useState(true); // eslint-disable-line no-unused-vars
 
-	const decorationVendors = [
-		{
-			name: "Elegant Events Decor",
-			description: "Complete decoration solutions for weddings and parties",
-			contact: "+91-9876543213",
-			rating: 4.9,
-			priceRange: "₹20,000 - ₹200,000",
-		},
-		{
-			name: "Creative Designs",
-			description: "Themed decorations and custom setups",
-			contact: "+91-9876543214",
-			rating: 4.5,
-			priceRange: "₹15,000 - ₹150,000",
-		},
-		{
-			name: "Floral Fantasy",
-			description: "Beautiful floral arrangements and decor",
-			contact: "+91-9876543215",
-			rating: 4.7,
-			priceRange: "₹10,000 - ₹100,000",
-		},
-	];
+	useEffect(() => {
+		fetchVendors();
+	}, []);
 
-	const venueVendors = [
-		{
-			name: "Grand Ballroom Events",
-			description: "Luxurious ballrooms and event spaces",
-			contact: "+91-9876543216",
-			rating: 4.8,
-			priceRange: "₹200,000 - ₹2,000,000",
-		},
-		{
-			name: "Garden Paradise",
-			description: "Beautiful outdoor venues with natural settings",
-			contact: "+91-9876543217",
-			rating: 4.6,
-			priceRange: "₹100,000 - ₹1,000,000",
-		},
-		{
-			name: "Urban Chic Halls",
-			description: "Modern urban venues for contemporary events",
-			contact: "+91-9876543218",
-			rating: 4.7,
-			priceRange: "₹150,000 - ₹1,500,000",
-		},
-	];
+	const fetchVendors = async () => {
+		try {
+			const [cateringRes, decorationRes, venueRes] = await Promise.all([
+				fetch("http://localhost:5000/api/vendors/catering"),
+				fetch("http://localhost:5000/api/vendors/decoration"),
+				fetch("http://localhost:5000/api/vendors/venue"),
+			]);
+
+			if (cateringRes.ok) setCateringVendors(await cateringRes.json());
+			if (decorationRes.ok) setDecorationVendors(await decorationRes.json());
+			if (venueRes.ok) setVenueVendors(await venueRes.json());
+		} catch (error) {
+			console.error("Error fetching vendors:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const handleContactVendor = (vendor) => {
 		setSelectedVendor(vendor);
@@ -513,6 +471,37 @@ function Vendors() {
 				<h1 className="text-4xl md:text-5xl font-bold mb-12 text-center text-blue-900">
 					Recommended Vendors
 				</h1>
+
+				{/* Budget Bar */}
+				{estimate > 0 && (
+					<div className="mb-8 bg-white rounded-2xl p-6 shadow-xl max-w-4xl mx-auto">
+						<h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+							Event Budget Tracker
+						</h2>
+						<div className="space-y-4">
+							<div className="flex justify-between items-center">
+								<span className="text-lg font-medium">Original Estimate:</span>
+								<span className="text-lg font-bold text-blue-600">₹{estimate.toLocaleString("en-IN")}</span>
+							</div>
+							<div className="flex justify-between items-center">
+								<span className="text-lg font-medium">Cart Total:</span>
+								<span className="text-lg font-bold text-green-600">₹{(cartItems.length * 100000).toLocaleString("en-IN")}</span>
+							</div>
+							<div className="flex justify-between items-center">
+								<span className="text-lg font-medium">Remaining Budget:</span>
+								<span className={`text-lg font-bold ${estimate - (cartItems.length * 100000) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+									₹{(estimate - (cartItems.length * 100000)).toLocaleString("en-IN")}
+								</span>
+							</div>
+							<div className="flex justify-between items-center">
+								<span className="text-lg font-medium">Total Saved from Estimate:</span>
+								<span className="text-lg font-bold text-purple-600">
+									₹{Math.max(0, estimate - (cartItems.length * 100000)).toLocaleString("en-IN")}
+								</span>
+							</div>
+						</div>
+					</div>
+				)}
 
 				{/* Catering Vendors */}
 				<div className="mb-12">

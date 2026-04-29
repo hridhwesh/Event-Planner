@@ -4,12 +4,43 @@ import eventLogo from "./assets/event_logo.png";
 function Login({ onLogin }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [isRegister, setIsRegister] = useState(false);
+	const [name, setName] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Mock login - in real app, validate credentials
-		if (email && password) {
-			onLogin();
+		setLoading(true);
+		setError("");
+
+		try {
+			const endpoint = isRegister ? "/api/auth/register" : "/api/auth/login";
+			const body = isRegister
+				? { email, password, name }
+				: { email, password };
+
+			const response = await fetch(`http://localhost:5000${endpoint}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(body),
+			});
+
+			const data = await response.json();
+
+			if (response.ok) {
+				localStorage.setItem("token", data.token);
+				localStorage.setItem("user", JSON.stringify(data.user));
+				onLogin(data.user);
+			} else {
+				setError(data.message);
+			}
+		} catch (err) {
+			setError("Network error. Please try again.");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -19,8 +50,29 @@ function Login({ onLogin }) {
 				<div class="w-full h-52 rounded-lg bg-zinc-700 overflow-hidden">
                     <img class="w-full h-full object-cover" src={eventLogo} alt="Event Logo" ></img>
                 </div>
+				{error && (
+					<div className="mb-4 p-3 bg-red-600 text-white rounded-md">
+						{error}
+					</div>
+				)}
+
 				<form onSubmit={handleSubmit}>
-					<div className="mt-4 mb-4">
+					{isRegister && (
+						<div className="mb-4">
+							<label htmlFor="name" className="block text-zinc-400">
+								Name
+							</label>
+							<input
+								type="text"
+								id="name"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+								required
+							/>
+						</div>
+					)}
+					<div className="mb-4">
 						<label htmlFor="email" className="block text-zinc-400">
 							Email
 						</label>
@@ -48,15 +100,26 @@ function Login({ onLogin }) {
 					</div>
 					<button
 						type="submit"
-						className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 transition duration-200">
-						Login
+						disabled={loading}
+						className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 transition duration-200 disabled:opacity-50">
+						{loading ? "Please wait..." : (isRegister ? "Register" : "Login")}
 					</button>
 				</form>
 				<p className="text-center text-zinc-500 mt-4">
-					Don't have an account?{" "}
-					<a href="#" className="text-blue-600">
-						Sign up
-					</a>
+					{isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
+					<button
+						type="button"
+						onClick={() => {
+							setIsRegister(!isRegister);
+							setError("");
+							setName("");
+							setEmail("");
+							setPassword("");
+						}}
+						className="text-blue-600 hover:underline"
+					>
+						{isRegister ? "Login" : "Sign up"}
+					</button>
 				</p>
 			</div>
 		</div>
